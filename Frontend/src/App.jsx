@@ -3,6 +3,7 @@ import HomePage from "./Pages/HomePage";
 import Registro from "./Pages/Registro";
 import Vender from './Pages/Vender'
 import Login from './Pages/Login'
+import PerfilPage from './Pages/PerfilPage'
 
 //Componets
 import Perfil from './components/Perfil'
@@ -57,8 +58,9 @@ function App() {
         <Route path="/productos" element={<h1>TODOS LOS PRODUCTOS</h1>} />
         <Route path="/ofertas" element={<h1>Ofertas</h1>} />
         <Route path="/productos/:nombre" element={<h1>Buscar Producto</h1>} />
-        <Route path="/perfil" element={<Perfil></Perfil>}/>
+        <Route path="/perfil" element={<PerfilPage></PerfilPage>}/>
         <Route path="/vender" element={<Vender/>} />
+        <Route path="/perfil/datos" element={<Perfil/>} />
         <Route
           path="*"
           element={<h1>404 Not Found página no encontrada</h1>}

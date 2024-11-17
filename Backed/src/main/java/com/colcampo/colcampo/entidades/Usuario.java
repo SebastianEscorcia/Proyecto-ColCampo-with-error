@@ -1,8 +1,9 @@
-package com.colcampo.colcampo.entidades;
+    package com.colcampo.colcampo.entidades;
 
 
 import org.antlr.v4.runtime.misc.NotNull;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,9 +26,14 @@ public class Usuario{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column (name = "nombre_usuario")
     private String nombreUsuario;
     private String contrasenia;
+    @Column (name = "correo_electronico")
     private String correoElectronico;
+    @Column (name = "tipo_usuario")
+    private String tipoUsuario;
+    @Column (name = "terminos_y_condiciones")
     private boolean terminosYCondiciones;
     public Usuario orElse(Object object) {
         

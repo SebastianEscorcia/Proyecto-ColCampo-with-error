@@ -1,8 +1,13 @@
-import {registrarCampesino} from "../Logic/CampesinoPerfilController";
+import {
+  registrarCampesino,
+  actualizarCampesino,
+  obtenerPerfilCampesino,
+} from "../Logic/CampesinoPerfilController";
 import { useForm } from "react-hook-form";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 export function Perfil() {
   const {
     register,
@@ -13,31 +18,73 @@ export function Perfil() {
 
   const { user } = usarContexto();
   const navigate = useNavigate();
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (user) {
+      // Establecer los datos del user
       setValue("id", user.id);
       setValue("nombreUsuario", user.nombreUsuario);
       setValue("correoElectronico", user.correoElectronico);
-      setValue("contrasenia", user.contrasenia);  
+      setValue("contrasenia", user.contrasenia);
+      setValue("tipoUsuario", user.tipoUsuario);
       setValue("terminosYCondiciones", user.terminosYCondiciones);
+
+      // Obtener datos del perfil del campesino si existe
+      obtenerPerfilCampesino(user.id)
+        .then((response) => {
+          if (response) {
+            setIsUpdating(true);
+            setValue("nombre", response.nombre);
+            setValue("apellido", response.apellido);
+            setValue("direccion", response.direccion);
+            setValue("numeroDocumento", response.numeroDocumento);
+          }
+        })
+        .catch((error) => {
+          console.error("Error al obtener el perfil del campesino:", error);
+        });
     }
   }, [user, setValue]);
+
   const onSubmit = async (data) => {
     if (data.foto[0]) {
       data.foto = await convertirABase64(data.foto[0]);
+    }else{
+      data.foto = user.foto;
     }
-    
-    console.log("Datos envidados", data);
-    
+    data.tipoUsuario = "campesino";
+
+    const usuario = {
+      id: data.id,
+      nombreUsuario: data.nombreUsuario,
+      correoElectronico: data.correoElectronico,
+      contrasenia: data.contrasenia,
+      tipoUsuario: data.tipoUsuario,
+      terminosYCondiciones: data.terminosYCondiciones,
+    };
+    const perfilCampesino = {
+      id: data.id,
+      nombre: data.nombre,
+      apellido: data.apellido,
+      direccion: data.direccion,
+      numeroDocumento: data.numeroDocumento,
+      foto: data.foto,
+      usuario: usuario,
+    };
+
     try {
-      const response = await registrarCampesino(data);
-      console.log("Campesino registrado:", response);
+      const response = isUpdating
+        ? await actualizarCampesino(perfilCampesino)
+        : await registrarCampesino(perfilCampesino);
+
+      console.log("Campesino registrado/actualizado:", response);
       navigate("/vender");
     } catch (error) {
-      console.error("Error al registrar campesino:", error);
+      console.error("Error al registrar/actualizar campesino:", error);
     }
   };
+
   const convertirABase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -46,9 +93,9 @@ export function Perfil() {
       reader.onerror = (error) => reject(error);
     });
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form-container">
-      
       <h2>Mi perfil</h2>
       <input
         type="text"
@@ -92,10 +139,12 @@ export function Perfil() {
       {errors.numeroDocumento && (
         <span>El número de documento es obligatorio</span>
       )}
-      <input type="file" {...register("foto", { required: true })} />
+      <input type="file" {...register("foto", { required: !isUpdating })} />{" "}
       {errors.foto && <span>La foto es obligatoria</span>}
-      <input type="hidden" {...register("id", {required: false})} />
-      <button type="submit">Guardar Perfil</button>
+      <input type="hidden" {...register("id", { required: false })} />
+      <button type="submit">
+        {isUpdating ? "Actualizar Perfil" : "Guardar Perfil"}
+      </button>
     </form>
   );
 }

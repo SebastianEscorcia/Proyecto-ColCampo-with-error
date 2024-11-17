@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { iniciarSesion } from "../Logic/LoginController";
+
 
 export function Login() {
   const {
@@ -24,23 +27,32 @@ export function Login() {
       alert("Error al iniciar sesión. Por favor, verifique sus credenciales.");
     }
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form-container">
-      {" "}
-      <h2>Inicia Sesión</h2>{" "}
-      <input
-        type="text"
-        {...register("nombreUsuario", { required: true })}
-        placeholder="Nombre de usuario"
-      />{" "}
-      {errors.nombreUsuario && <span>El nombre de usuario es obligatorio</span>}{" "}
-      <input
-        type="password"
-        {...register("contrasenia", { required: true })}
-        placeholder="Contraseña"
-      />{" "}
-      {errors.contrasenia && <span>La contraseña es obligatoria</span>}{" "}
-      <button type="submit">Iniciar Sesión</button>{" "}
+      <h2>Inicia Sesión</h2>
+
+      <div className="input-group">
+        <FontAwesomeIcon icon={faUser} />
+        <input
+          type="text"
+          {...register("nombreUsuario", { required: true })}
+          placeholder="Nombre de usuario"
+        />
+      </div>
+      {errors.nombreUsuario && <span>El nombre de usuario es obligatorio</span>}
+      
+      <div className="input-group">
+        <FontAwesomeIcon icon={faLock} />
+        <input
+          type="password"
+          {...register("contrasenia", { required: true })}
+          placeholder="Contraseña"
+        />
+      </div>
+      {errors.contrasenia && <span>La contraseña es obligatoria</span>}
+
+      <button type="submit">Iniciar Sesión</button>
     </form>
   );
 }

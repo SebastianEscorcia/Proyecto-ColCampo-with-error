@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="bg-white " style={{borderTop: '3px solid #16a34a', minHeight: '100px'}}>
+    <footer className="bg-white " style={{borderTop: '3px solid #16a34a', minHeight: '100px',marginTop:'20px'}}>
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="text-center text-black">
           <p className="mb-2">

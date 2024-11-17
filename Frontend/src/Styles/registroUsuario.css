@@ -1,11 +1,11 @@
 .form-container {
   width: 100%;
   max-width: 500px;
-  margin: 80px auto; 
-  background-color: #FFF; 
+  margin: 80px auto;
+  background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  border: 2px solid #ccc; 
+  border: 2px solid #ccc;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   font-family: "Roboto", sans-serif;
 }
@@ -75,7 +75,7 @@
 }
 
 .form-container button[type="submit"]:hover {
-  background-color: #16a34a; /* Verde específico */
+  background-color: #16a34a;
   color: white;
   cursor: pointer;
   transform: scale(1.02);
@@ -84,7 +84,7 @@
 
 .form-container span {
   color: #db2a24; /* Rojo suave */
-  font-size: 1.0rem;
+  font-size: 1rem;
   margin-top: 4px;
   display: block;
 }
@@ -98,4 +98,22 @@
   color: red;
   margin-top: 10px;
   font-size: 14px;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.input-group input,
+.input-group select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 10px; 
+}
+.input-group svg {
+  flex-shrink: 0;
+  font-size: 20px;
+  color: #333;
 }

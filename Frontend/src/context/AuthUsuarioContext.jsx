@@ -15,7 +15,7 @@ export const usarContexto = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setisAuthenticated] = useState(false);
-    
+
     const login = async (user) => {
         try {
             const response = await registrarUsuario(user);
@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
             console.error("Error al registrar el usuario:", error);
         }
     };
-
     const logout = () => {
         localStorage.removeItem("token");
         setUser(null);

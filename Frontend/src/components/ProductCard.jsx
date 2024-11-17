@@ -1,19 +1,20 @@
 import '../Styles/productcard.css'
-function ProductCard({ product }) {
+
+function ProductCard({ producto }) {
+
   return (
     <div className="product-card">
-      {" "}
       <img
-        src={product.image}
-        alt={product.name}
+        src={producto.foto}
+        alt={producto.nombre}
         className="product-image"
-      />{" "}
+      />
       <div className="product-info">
-        {" "}
-        <h3 className="product-name">{product.name}</h3>{" "}
-        <p className="product-price">${product.price}</p>{" "}
-        <p className="product-description">{product.description}</p>{" "}
-      </div>{" "}
+        <h3 className="product-name">{producto.nombre}</h3>
+        <p className="product-price">${producto.precio}</p>
+        <p className="product-description">{producto.descripcion}</p>
+        
+      </div>
     </div>
   );
 }

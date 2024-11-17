@@ -6,11 +6,14 @@ import Logo from "../assets/Logo.jpeg";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { ShoppingBasket, Search } from "lucide-react";
 
+
 function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const { isAuthenticated, logout } = usarContexto();
+  
+  
 
   const handleLogoClick = () => {
     NProgress.start();
@@ -69,7 +72,7 @@ function Navbar() {
               0
             </span>
           </Link>
-          {isAuthenticated ? (
+          {isAuthenticated  ? (
             <>
               
               <Link
