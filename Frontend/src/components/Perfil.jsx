@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import imageCompression from 'browser-image-compression';
 
 export function Perfil() {
   const {
@@ -50,7 +51,7 @@ export function Perfil() {
   const onSubmit = async (data) => {
     if (data.foto[0]) {
       data.foto = await convertirABase64(data.foto[0]);
-    }else{
+    } else {
       data.foto = user.foto;
     }
     data.tipoUsuario = "campesino";
@@ -85,13 +86,24 @@ export function Perfil() {
     }
   };
 
-  const convertirABase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
+  const convertirABase64 = async (file) => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    
+    try {
+      const imagenComprimida = await imageCompression(file, options);
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(imagenComprimida);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    } catch (error) {
+      console.error("Error comprimiendo la imagen:", error);
+    }
   };
 
   return (

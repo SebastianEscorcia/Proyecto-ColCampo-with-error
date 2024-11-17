@@ -33,7 +33,7 @@ public class Campesino {
     @Column(name = "numero_documento")
     private String numeroDocumento;
     @Lob
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String foto;
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)

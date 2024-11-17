@@ -1,28 +1,25 @@
 import { Link } from "react-router-dom";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import "../Styles/PerfilPage.css";
+
 function PerfilPage() {
-  const { user } = usarContexto();
+  const { user, campesinoPerfil } = usarContexto();
   return (
     <div className="perfil-page-container">
-      
       <div className="perfil-header">
-        
         <img
-          src={user?.foto || "default-profile.png"}
+          src={campesinoPerfil?.foto || "default-profile.png"}
           alt="Foto de perfil"
           className="perfil-foto"
         />
         <h1 className="perfil-username">{user?.nombreUsuario}</h1>
       </div>
       <div className="perfil-navigation">
-        
         <Link to="/perfil/datos" className="perfil-link">
           Mis Datos
         </Link>
         {user?.tipoUsuario === "campesino" && (
           <>
-            
             <Link to="/perfil/mis-productos" className="perfil-link">
               Mis Productos
             </Link>
@@ -36,14 +33,12 @@ function PerfilPage() {
         )}
         {user?.tipoUsuario === "cliente" && (
           <>
-            
             <Link to="/perfil/historial-compras" className="perfil-link">
               Historial de Compras
             </Link>
             <Link to="/perfil/mis-pedidos" className="perfil-link">
               Mis Pedidos
             </Link>
-            {/* Agrega más enlaces según sea necesario */}
           </>
         )}
       </div>

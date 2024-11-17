@@ -4,9 +4,11 @@ import Registro from "./Pages/Registro";
 import Vender from './Pages/Vender'
 import Login from './Pages/Login'
 import PerfilPage from './Pages/PerfilPage'
+import Productos from './Pages/Productos'
 
 //Componets
 import Perfil from './components/Perfil'
+
 
 
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -55,7 +57,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/carrito" element={<h1>Carrito</h1>} />
         <Route path="/registro" element={<Registro />} />
-        <Route path="/productos" element={<h1>TODOS LOS PRODUCTOS</h1>} />
+        <Route path="/productos" element={<Productos/>} />
         <Route path="/ofertas" element={<h1>Ofertas</h1>} />
         <Route path="/productos/:nombre" element={<h1>Buscar Producto</h1>} />
         <Route path="/perfil" element={<PerfilPage></PerfilPage>}/>
