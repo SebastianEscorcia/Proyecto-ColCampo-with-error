@@ -30,7 +30,7 @@ export function Perfil() {
       setValue("contrasenia", user.contrasenia);
       setValue("tipoUsuario", user.tipoUsuario);
       setValue("terminosYCondiciones", user.terminosYCondiciones);
-
+      
       // Obtener datos del perfil del campesino si existe
       obtenerPerfilCampesino(user.id)
         .then((response) => {

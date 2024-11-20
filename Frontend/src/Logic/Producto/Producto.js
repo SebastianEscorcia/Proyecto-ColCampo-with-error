@@ -24,7 +24,7 @@ export const registrarProducto = async (datos) => {
 };
 export const obtenerProductos = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/producto/obtener");
+    const response = await axios.get("http://localhost:8080/api/products");
     return response.data;
   } catch (error) {
     console.error("Error obteniendo productos:", error);

@@ -1,6 +1,6 @@
-import { createContext, useState, useContext, useEffect } from "react";
-import { registrarProducto } from "../Logic/Producto/Producto";
-import { obtenerProductos } from "../Logic/Producto/Producto";
+import { createContext, useContext, useEffect, useState } from "react";
+import ProductoService from "../services/Product.service";
+import ImageService from "../services/Image.service";
 
 export const ProductoContext = createContext();
 
@@ -14,21 +14,29 @@ export const usarProductoContext = () => {
   return context;
 };
 
+const productoService = ProductoService;
+
 export const ProductoProvider = ({ children }) => {
   const [productos, setProductos] = useState([]);
-  const [publicoProducto, setPublicoProducto] = useState(false);
+  const [loading, setLoading] = useState(true); // Agrega un estado para la carga
 
   useEffect(() => {
     const fetchProductos = async () => {
-      console.log("Cargando productos..."); // Añade un console.log aquí
+      setLoading(true); // Inicia la carga
       try {
-        const productosObtenidos = await obtenerProductos();
-        console.log("Productos obtenidos:", productosObtenidos);
-        setProductos(
-          Array.isArray(productosObtenidos) ? productosObtenidos : []
-        );
+        const productosObtenidos = await productoService.getAllProducts();
+        
+        // Usamos Promise.all para esperar a que todas las imágenes se obtengan
+        const productosConImagenes = await Promise.all(productosObtenidos.map(async (producto) => {
+          const imagen = await ImageService.getImage(producto.image);
+          return { ...producto, imagen };
+        }));
+
+        setProductos(productosConImagenes);
       } catch (error) {
         console.error("Error cargando productos:", error);
+      } finally {
+        setLoading(false); // Finaliza la carga
       }
     };
 
@@ -36,27 +44,15 @@ export const ProductoProvider = ({ children }) => {
   }, []);
 
   const registroProducto = async (producto) => {
-    try {
-      const result = await registrarProducto(producto);
-      if (result.success) {
-        console.log(
-          `El producto ${producto.nombre} ha sido registrado correctamente`,
-          result.data
-        );
-        setProductos([...productos, result.data]);
-        setPublicoProducto(true);
-        return { success: true };
-      } else {
-        return { success: false, message: result.message };
-      }
-    } catch (error) {
-      console.error("Error registrando producto:", error);
-      return { success: false, message: "Ocurrió un error inesperado." };
+    const result = await productoService.registrarProducto(producto);
+    if (result.success) {
+      setProductos([...productos, result.data]);
     }
+    return result;
   };
 
   return (
-    <ProductoContext.Provider value={{ productos, registroProducto }}>
+    <ProductoContext.Provider value={{ productos, registroProducto, loading }}>
       {children}
     </ProductoContext.Provider>
   );

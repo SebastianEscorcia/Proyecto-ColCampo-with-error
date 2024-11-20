@@ -72,7 +72,7 @@ function Navbar() {
               0
             </span>
           </Link>
-          {isAuthenticated   ? (
+          {isAuthenticated  ? (
             <>
               
               <Link

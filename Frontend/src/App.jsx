@@ -5,6 +5,7 @@ import Vender from './Pages/Vender'
 import Login from './Pages/Login'
 import PerfilPage from './Pages/PerfilPage'
 import Productos from './Pages/Productos'
+import ProductDetails from './Pages/ProductDetails'
 
 //Componets
 import Perfil from './components/Perfil'
@@ -16,7 +17,9 @@ import NProgress from "nprogress";
 import "./Styles/barraProgreso.css";
 
 import { useEffect } from "react";
+// C
 import { usarContexto } from "./context/AuthUsuarioContext";
+
 //Logic
 import { obtenerPerfil } from "./Logic/ObtenerPerfil";
 
@@ -63,6 +66,7 @@ function App() {
         <Route path="/perfil" element={<PerfilPage></PerfilPage>}/>
         <Route path="/vender" element={<Vender/>} />
         <Route path="/perfil/datos" element={<Perfil/>} />
+        <Route path="/products/details/:id" element={<ProductDetails/>} />
         <Route
           path="*"
           element={<h1>404 Not Found página no encontrada</h1>}
