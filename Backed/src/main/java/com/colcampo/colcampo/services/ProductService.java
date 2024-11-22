@@ -1,6 +1,7 @@
 package com.colcampo.colcampo.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,6 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id).orElse(null);
         if (existingProduct != null) {
             existingProduct.setName(updatedProduct.getName());
-            existingProduct.setQuantity(updatedProduct.getQuantity());
             return productRepository.save(existingProduct);
         }
         return null;
@@ -42,5 +42,8 @@ public class ProductService {
             return true;
         }
         return false;
+    }
+    public List<Map<String, Object>> getPersonProductsByProductId(int productId) {
+        return productRepository.findPersonProductsByProductId(productId);
     }
 }

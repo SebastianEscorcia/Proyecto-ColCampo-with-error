@@ -23,9 +23,12 @@ public class Product {
 
     private String name;
     private String image;
-    private int quantity;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
+
     @Column(name = "updated_at", nullable = false, updatable = false)
     private Timestamp updatedAt;
+
+    private Double price;
 }

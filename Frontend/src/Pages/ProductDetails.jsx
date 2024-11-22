@@ -3,23 +3,41 @@ import NavBar from "../components/NavBar";
 import DetailsProduct from "../components/DetailsProducts";
 import { usarProductoContext } from "../context/ProductContext";
 import { useState, useEffect } from "react";
-import LoadingSpinner from '../components/Spinner/LoadingSpinner'
+import LoadingSpinner from "../components/Spinner/LoadingSpinner";
+import Tile from "../components/Layout/Titles";
+import ProductService from "../services/Product.service";
 
 function ProductDetails() {
   const { id } = useParams();
   const { productos } = usarProductoContext();
   const [producto, setProducto] = useState(null);
+  const [personas, setPersonas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const findProduct = (id) => {
-      return productos.find((product) => product.id === parseInt(id, 10)); // Encuentra el producto por su ID
+    const fetchProductDetails = async () => {
+      try {
+        const productoEncontrado = productos.find(
+          (product) => product.id === parseInt(id, 10)
+        );
+        setProducto(productoEncontrado);
+
+        if (productoEncontrado) {
+          const personasResponse =
+            await ProductService.getDetailsProductsPersonByProduct(id);
+          setPersonas(personasResponse);
+        }
+      } catch (error) {
+        console.error("Error al obtener detalles del producto:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const productoEncontrado = findProduct(id);
-    setProducto(productoEncontrado);
+    fetchProductDetails();
   }, [id, productos]);
 
-  if (!producto) {
+  if (!producto || loading) {
     return (
       <div>
         <NavBar />
@@ -31,8 +49,8 @@ function ProductDetails() {
   return (
     <div>
       <NavBar />
-      <h1><strong> Detalles del producto</strong></h1>
-      <DetailsProduct producto={producto} />
+      <Tile title="Detalles del Producto" />
+      <DetailsProduct producto={producto} personas={personas} />
     </div>
   );
 }

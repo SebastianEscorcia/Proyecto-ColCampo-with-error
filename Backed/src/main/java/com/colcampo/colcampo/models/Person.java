@@ -1,5 +1,7 @@
 package com.colcampo.colcampo.models;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +36,10 @@ public class Person {
 
     @Column(name = "is_active", columnDefinition = "TINYINT(1)")
     private boolean isActive;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Timestamp createdAt;
+
+    @Column(name = "updated_at", nullable = false, updatable = false)
+    private Timestamp updatedAt;
 }

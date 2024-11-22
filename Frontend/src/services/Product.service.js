@@ -3,7 +3,8 @@ import axios from "axios";
 class ProductService {
   constructor() {
     debugger;
-    this.API_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:8080/api";
+    this.API_URL =
+      import.meta.env.REACT_APP_API_URL || "http://localhost:8080/api";
   }
 
   /**
@@ -80,6 +81,20 @@ class ProductService {
       return response.status === 200; // Devuelve true si se eliminó correctamente
     } catch (error) {
       console.error(`Error al eliminar el producto con ID ${id}:`, error);
+      throw error;
+    }
+  }
+  async getDetailsProductsPersonByProduct(idProduct) {
+    try {
+      const response = await axios.get(
+        `${this.API_URL}/products/${idProduct}/person-products`
+      );
+      return response.data; // Devuelve los datos de la respuesta
+    } catch (error) {
+      console.error(
+        "Error al obtener detalles de persona por producto:",
+        error
+      );
       throw error;
     }
   }

@@ -1,16 +1,14 @@
 import React from 'react';
 import '../Styles/detailsProduct.css';
+import ProductCard from '../components/ProductCard';
+import { useContextCart } from '../context/CartContext';
 
-function DetailsProduct({ producto }) {
+function DetailsProduct({ producto, personas }) {
+  const { addToCart } = useContextCart();
+
   return (
     <div className="details-product">
-      <div className="product-card-container">
-        <img 
-          src={`data:image/jpeg;base64,${producto.imagen}`} 
-          alt={producto.name} 
-          className="product-image"
-        />
-      </div>
+      <ProductCard producto={producto} />
       <div className="product-details">
         <table>
           <thead>
@@ -22,14 +20,21 @@ function DetailsProduct({ producto }) {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{producto.campesino}</td>
-              <td>{producto.cantidadDisponible}</td>
-              <td>{producto.precio}</td>
-              <td>
-                <button className="add-to-cart-button">Agregar al carrito</button>
-              </td>
-            </tr>
+            {personas.map((persona, index) => (
+              <tr key={index}>
+                <td>{persona.personName}</td>
+                <td>{persona.stock}</td>
+                <td>${persona.price}</td>
+                <td>
+                  <button
+                    className="add-to-cart-button"
+                    onClick={() => addToCart(persona)}
+                  >
+                    Agregar al carrito
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

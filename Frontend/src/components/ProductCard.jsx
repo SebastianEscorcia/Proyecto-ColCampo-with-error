@@ -19,9 +19,12 @@ function ProductCard({ producto }) {
       />
       <div className="product-info">
         <h3 className="product-name">{producto.name}</h3>
-        <p className="product-price">${producto.precio}</p>
+        <p className="product-price">{producto.price}</p>
         <p className="product-description">{producto.descripcion}</p>
+        <p className="product-quantity">Cantidad disponible: {producto.quantity}</p>
+        
       </div>
+      
     </div>
   );
 }

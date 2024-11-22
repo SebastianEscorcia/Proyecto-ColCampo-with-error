@@ -6,14 +6,22 @@ import Logo from "../assets/Logo.jpeg";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { ShoppingBasket, Search } from "lucide-react";
 
+import CartDrawer from "./modalCart/CartDrawer";
+
+import React from "react";
+
+import "react-modern-drawer/dist/index.css";
 
 function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const { isAuthenticated, logout } = usarContexto();
-  
-  
+
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggleDrawer = () => {
+    setIsOpen((prevState) => !prevState);
+  };
 
   const handleLogoClick = () => {
     NProgress.start();
@@ -63,18 +71,16 @@ function Navbar() {
             Ofertas
           </Link>
           <Link
-            to="/carrito"
             className="relative p-2  text-black cursor-pointer transform hover:scale-105 hover:shadow-lg hover:text-white hover:bg-green-600"
-            onClick={handleLinkClick}
+            onClick={toggleDrawer}
           >
             <ShoppingBasket className="h-6 w-6" />
             <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
               0
             </span>
           </Link>
-          {isAuthenticated  ? (
+          {isAuthenticated ? (
             <>
-              
               <Link
                 to="/vender"
                 className="navbar-link"
@@ -92,11 +98,9 @@ function Navbar() {
               >
                 Perfil
               </Link>
-              
             </>
           ) : (
             <>
-              
               <Link
                 to="/registro"
                 className="navbar-link"
@@ -115,6 +119,7 @@ function Navbar() {
           )}
         </div>
       </nav>
+      <CartDrawer isOpen={isOpen} toggleDrawer={toggleDrawer} />
     </header>
   );
 }

@@ -8,6 +8,7 @@ import com.colcampo.colcampo.models.Product;
 import com.colcampo.colcampo.services.ProductService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
@@ -53,4 +54,14 @@ public class ProductController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/{id}/person-products")
+    public ResponseEntity<List<Map<String, Object>>> getPersonProductsByProductId(@PathVariable("id") int id) {
+        List<Map<String, Object>> result = productService.getPersonProductsByProductId(id);
+        if (result.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
 }

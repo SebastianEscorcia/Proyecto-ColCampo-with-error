@@ -3,7 +3,32 @@
     justify-content: space-between;
     padding: 20px;
   }
-  
+  h1{
+    display: block;
+    width: 100%;
+    background: #A1D884;
+    padding: 24px;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+
+  }
+  .headerSection{
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  .headerSection button{
+    width: 208px;
+    display: flex
+;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    font-size: 24px;
+    border-bottom: 2px solid #a1d884;
+    box-sizing: border-box;
+  }
   .product-card-container {
     flex: 1;
   }

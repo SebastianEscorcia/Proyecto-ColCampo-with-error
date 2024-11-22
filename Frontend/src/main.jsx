@@ -5,15 +5,18 @@ import './index.css';
 import App from './App.jsx';
 import { AuthProvider } from './context/AuthUsuarioContext';
 import { ProductoProvider } from './context/ProductContext'; // Importa tu proveedor de contexto de productos
+import { CartProvider } from './context/CartContext'; // Importa tu proveedor de contexto de carrito
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  
     <Router>
       <AuthProvider>
         <ProductoProvider> 
-          <App />
+          <CartProvider>
+            <App/>
+          </CartProvider>
         </ProductoProvider>
       </AuthProvider>
     </Router>
-  </StrictMode>,
+  
 );
