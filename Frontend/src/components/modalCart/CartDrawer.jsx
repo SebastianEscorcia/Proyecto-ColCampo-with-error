@@ -2,9 +2,10 @@ import React from 'react';
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
 import CartComponent from '../CartComponent';
+import "../../Styles/cartDrawer.css";
 function CartDrawer({ isOpen, toggleDrawer }) {
   return (
-    <Drawer open={isOpen} onClose={toggleDrawer} direction="right" className="bla bla bla">
+    <Drawer size={500} open={isOpen} onClose={toggleDrawer} direction="right" className="drawerCart">
       <CartComponent />
     </Drawer>
   );

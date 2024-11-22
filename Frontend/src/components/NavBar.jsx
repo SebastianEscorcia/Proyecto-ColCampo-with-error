@@ -5,6 +5,7 @@ import "../Styles/navbar.css";
 import Logo from "../assets/Logo.jpeg";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { ShoppingBasket, Search } from "lucide-react";
+import { useContextCart } from "../context/CartContext";
 
 import CartDrawer from "./modalCart/CartDrawer";
 
@@ -15,6 +16,7 @@ import "react-modern-drawer/dist/index.css";
 function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const { cart } = useContextCart();
 
   const { isAuthenticated, logout } = usarContexto();
 
@@ -76,7 +78,7 @@ function Navbar() {
           >
             <ShoppingBasket className="h-6 w-6" />
             <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              0
+              {cart.length}
             </span>
           </Link>
           {isAuthenticated ? (

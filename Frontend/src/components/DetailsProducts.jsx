@@ -28,7 +28,7 @@ function DetailsProduct({ producto, personas }) {
                 <td>
                   <button
                     className="add-to-cart-button"
-                    onClick={() => addToCart(persona)}
+                    onClick={() => addToCart(persona, producto)}
                   >
                     Agregar al carrito
                   </button>

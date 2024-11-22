@@ -18,7 +18,7 @@ const productoService = ProductoService;
 
 export const ProductoProvider = ({ children }) => {
   const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true); // Agrega un estado para la carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -28,10 +28,10 @@ export const ProductoProvider = ({ children }) => {
         
         // Usamos Promise.all para esperar a que todas las imágenes se obtengan
         const productosConImagenes = await Promise.all(productosObtenidos.map(async (producto) => {
-          const imagen = await ImageService.getImage(producto.image);
-          return { ...producto, imagen };
+          const image = await ImageService.getImage(producto.image);
+          return { ...producto, image };
         }));
-
+        debugger;
         setProductos(productosConImagenes);
       } catch (error) {
         console.error("Error cargando productos:", error);

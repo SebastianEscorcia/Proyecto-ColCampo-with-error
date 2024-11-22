@@ -1,22 +1,24 @@
-
-import {useContextCart} from '../context/CartContext';
-
+import { useContextCart } from "../context/CartContext";
+import Detailcart from "./Cart/DetailCart";
 function CartComponent({ product }) {
-    const {cart, addToCart}= useContextCart();
-    
+  const { cart } = useContextCart();
+
   return (
     <div>
-      <h2>Carrito</h2>
-      {cart.map((product) => (
-        <div key={product.id}>
-          <img src={product.image} alt={product.name} />
-          <h3>{product.name}</h3>
-          <p>Precio: ${product.price}</p>
-          <button onClick={() => addToCart(product)}>Agregar al carrito</button>
+      <div className="cartBody">
+        <h2>Carrito de compras</h2>
+        <Detailcart />
+
+        <div className="cart-details-totals">
+          <div className="total">90</div>
+          <div className="total">$150.000</div>
         </div>
-      ))}
+      </div>
+      <div className="cartFooter">
+        <button>Comprar</button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default CartComponent
+export default CartComponent;
