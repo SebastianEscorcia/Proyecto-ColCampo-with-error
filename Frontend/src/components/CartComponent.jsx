@@ -62,9 +62,11 @@ function CartComponent({ product }) {
           <div className="cart-details-totals">
             <div className="total">{totalStock}</div>
             <div className="total">${totalPrice.toLocaleString()}</div>
+            
           </div>
         )}
       </div>
+      <div className="cart-total"> <div>Valor total: ${totalPrice.toLocaleString()}</div> </div>
       <div className="cartFooter">
         <button>Comprar</button>
       </div>

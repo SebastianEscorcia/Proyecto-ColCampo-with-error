@@ -37,7 +37,7 @@
 /* Footer del carrito */
 .cartFooter {
   width: 100%;
-  background: #F55845;
+  background: #f55845;
   height: 60px;
   display: flex;
   align-items: center;
@@ -59,6 +59,7 @@
   overflow: auto;
   margin-bottom: 10px;
   position: relative;
+  
 }
 
 /* Botón de eliminar producto */
@@ -77,6 +78,13 @@
   justify-content: center;
   cursor: pointer;
   font-size: 20px;
+}
+
+/*Total price*/
+.cart-total {
+  display: flex;
+  margin: 10px;
+  font-weight: bold;
 }
 
 /* Drawer */
@@ -137,7 +145,7 @@
 
 .quantity-cart .decrease-button:hover,
 .quantity-cart .increase-button:hover {
-  background-color: #16a34a; 
+  background-color: #16a34a;
   color: #fff;
   cursor: pointer;
   transform: scale(1.02);
