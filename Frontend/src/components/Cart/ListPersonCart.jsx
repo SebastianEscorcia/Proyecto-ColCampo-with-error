@@ -1,30 +1,39 @@
+import '../../Styles/detailsProduct.css';
+import QuantityCart from './QuantityCart'
 
-function ListPersonCart(persona) {
-  return(
 
-    <>
-      <h2>Persona: {persona.nombre}</h2>
+function ListPersonCart({ persons, onRemovePerson, onUpdateQuantity }) {
+  return (
+    <div className="product-details">
       <table>
         <thead>
           <tr>
             <th>Campesino</th>
-            <th>Cantidad</th>
+            <th>Cantidad disponible</th>
             <th>Precio c/u</th>
           </tr>
         </thead>
         <tbody>
-          {persona.map((campesino) => (
-            <tr key={campesino.id}>
-              <td>{campesino.nombre}</td>
-              <td>{campesino.cantidad}</td>
-              <td>{campesino.precio}</td>
+          {persons.map((person, index) => (
+            <tr key={index}>
+              <td>{person.personName}</td>
+              <td>
+                <QuantityCart
+                  person={person}
+                  maxQuantity={person.stock}
+                  onRemove={onRemovePerson}
+                  onUpdateQuantity={(newQuantity) =>
+                    onUpdateQuantity(person.personId, newQuantity)
+                  }
+                />
+              </td>
+              <td>${person.price}</td>
             </tr>
           ))}
         </tbody>
       </table>
-    </>
-  )
-    
+    </div>
+  );
 }
 
-export default ListPersonCart
+export default ListPersonCart;

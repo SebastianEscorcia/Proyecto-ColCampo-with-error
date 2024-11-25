@@ -18,5 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "JOIN rpp.person per " +
             "WHERE p.id = :productId")
     List<Map<String, Object>> findPersonProductsByProductId(@Param("productId") int productId);
+    List<Product> findByNameContainingIgnoreCase(String searchTerm);
 
 }

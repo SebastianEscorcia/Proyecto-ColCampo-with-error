@@ -35,3 +35,51 @@
     height: 160px;
     bottom: 0;
 }
+
+.list-person-cart{
+    flex: 1;
+    margin-left: 20px;
+}
+.list-person-cart table{
+    width: 100%;
+    border-collapse: collapse;
+}
+.list-person-cart th, .list-person-cart td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.list-person-cart th{
+    background-color: #f2f2f2;
+}
+
+/* Components QuantityCart */
+.quantity-cart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .quantity-cart button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .quantity-cart .remove-button {
+    background-color: #ff4d4f;
+    color: white;
+  }
+  
+  .quantity-cart .decrease-button,
+  .quantity-cart .increase-button {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .quantity-cart span {
+    font-weight: bold;
+    margin: 0 5px;
+  }
+  

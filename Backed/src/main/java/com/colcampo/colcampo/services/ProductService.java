@@ -46,4 +46,7 @@ public class ProductService {
     public List<Map<String, Object>> getPersonProductsByProductId(int productId) {
         return productRepository.findPersonProductsByProductId(productId);
     }
+    public List<Product> searchProducts(String searchTerm) {
+        return productRepository.findByNameContainingIgnoreCase(searchTerm);
+    }
 }

@@ -17,10 +17,9 @@ function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { cart } = useContextCart();
-
   const { isAuthenticated, logout } = usarContexto();
-
   const [isOpen, setIsOpen] = React.useState(false);
+
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
@@ -33,8 +32,9 @@ function Navbar() {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    navigate(`/productos/${searchTerm}`, { replace: true });
-    console.log("Buscando:", searchTerm);
+    if (searchTerm.trim()) {
+      navigate(`/productos/${searchTerm}`);
+    }
   };
 
   const handleLinkClick = () => {
@@ -73,7 +73,7 @@ function Navbar() {
             Ofertas
           </Link>
           <Link
-            className="relative p-2  text-black cursor-pointer transform hover:scale-105 hover:shadow-lg hover:text-white hover:bg-green-600"
+            className="relative p-2 text-black cursor-pointer transform hover:scale-105 hover:shadow-lg hover:text-white hover:bg-green-600"
             onClick={toggleDrawer}
           >
             <ShoppingBasket className="h-6 w-6" />
