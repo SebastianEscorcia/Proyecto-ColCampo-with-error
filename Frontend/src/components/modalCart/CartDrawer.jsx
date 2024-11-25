@@ -5,7 +5,7 @@ import CartComponent from '../CartComponent';
 import "../../Styles/cartDrawer.css";
 function CartDrawer({ isOpen, toggleDrawer }) {
   return (
-    <Drawer size={500} open={isOpen} onClose={toggleDrawer} direction="right" className="drawerCart">
+    <Drawer size={600} open={isOpen} onClose={toggleDrawer} direction="right" className="drawerCart">
       <CartComponent />
     </Drawer>
   );

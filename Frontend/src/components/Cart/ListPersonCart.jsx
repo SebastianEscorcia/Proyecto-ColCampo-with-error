@@ -1,6 +1,5 @@
 import '../../Styles/detailsProduct.css';
-import QuantityCart from './QuantityCart'
-
+import QuantityCart from './QuantityCart';
 
 function ListPersonCart({ persons, onRemovePerson, onUpdateQuantity }) {
   return (
@@ -9,7 +8,7 @@ function ListPersonCart({ persons, onRemovePerson, onUpdateQuantity }) {
         <thead>
           <tr>
             <th>Campesino</th>
-            <th>Cantidad disponible</th>
+            <th>Cantidad elegida</th>
             <th>Precio c/u</th>
           </tr>
         </thead>
@@ -22,16 +21,17 @@ function ListPersonCart({ persons, onRemovePerson, onUpdateQuantity }) {
                   person={person}
                   maxQuantity={person.stock}
                   onRemove={onRemovePerson}
-                  onUpdateQuantity={(newQuantity) =>
-                    onUpdateQuantity(person.personId, newQuantity)
+                  onUpdateQuantity={(personId, newQuantity) =>
+                    onUpdateQuantity(personId, newQuantity)
                   }
                 />
               </td>
-              <td>${person.price}</td>
+              <td>${person.price*1000}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      
     </div>
   );
 }

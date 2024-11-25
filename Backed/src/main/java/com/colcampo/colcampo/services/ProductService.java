@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.colcampo.colcampo.models.Product;
 import com.colcampo.colcampo.repositories.ProductRepository;
 
+
+
 @Service
 public class ProductService {
 
@@ -49,4 +51,6 @@ public class ProductService {
     public List<Product> searchProducts(String searchTerm) {
         return productRepository.findByNameContainingIgnoreCase(searchTerm);
     }
+
+    
 }

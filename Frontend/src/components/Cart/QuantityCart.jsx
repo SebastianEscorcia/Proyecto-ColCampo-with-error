@@ -1,14 +1,39 @@
+import { useState, useEffect } from 'react';
 
 function QuantityCart({ person, maxQuantity, onRemove, onUpdateQuantity }) {
+  const [quantity, setQuantity] = useState(person.selectedQuantity ?? 1); // Inicializar en la cantidad seleccionada o 1
+
+  useEffect(() => {
+    setQuantity(person.selectedQuantity ?? 1); // Actualizar si la cantidad seleccionada cambia
+  }, [person.selectedQuantity]);
+
   const handleIncrease = () => {
-    if (person.stock < maxQuantity) {
-      onUpdateQuantity(person.stock + 1);
+    if (quantity < maxQuantity) {
+      const newQuantity = quantity + 1;
+      setQuantity(newQuantity);
+      onUpdateQuantity(person.personId, newQuantity); // Pasar también el personId
     }
   };
 
   const handleDecrease = () => {
-    if (person.stock > 0) {
-      onUpdateQuantity(person.stock - 1);
+    if (quantity > 1) {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      onUpdateQuantity(person.personId, newQuantity); // Pasar también el personId
+    }
+  };
+
+  const handleInputChange = (e) => {
+    let newQuantity = parseInt(e.target.value, 10);
+    if (isNaN(newQuantity)) {
+      newQuantity = 1;
+    }
+    if (newQuantity >= 1 && newQuantity <= maxQuantity) {
+      setQuantity(newQuantity);
+      onUpdateQuantity(person.personId, newQuantity); // Pasar también el personId
+    } else if (newQuantity < 1) {
+      setQuantity(1);
+      onUpdateQuantity(person.personId, 1); // Pasar también el personId
     }
   };
 
@@ -20,15 +45,21 @@ function QuantityCart({ person, maxQuantity, onRemove, onUpdateQuantity }) {
       <button
         className="decrease-button"
         onClick={handleDecrease}
-        disabled={person.stock === 0}
+        disabled={quantity <= 1}
       >
         -
       </button>
-      <span>{person.stock}</span>
+      <input 
+        type="number" 
+        value={quantity} 
+        onChange={handleInputChange} 
+        min="1" 
+        max={maxQuantity} 
+      />
       <button
         className="increase-button"
         onClick={handleIncrease}
-        disabled={person.stock >= maxQuantity}
+        disabled={quantity >= maxQuantity}
       >
         +
       </button>

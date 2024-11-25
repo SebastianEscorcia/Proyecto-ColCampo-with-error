@@ -2,12 +2,12 @@ import { useParams } from "react-router-dom";
 import { usarProductoContext } from "../context/ProductContext";
 import ProductList from "../components/ProductsList";
 import { useEffect, useState } from "react";
-import "../Styles/pageProductos.css"
+import "../Styles/pageProductos.css";
 
 function Productos() {
   const { searchTerm } = useParams();
   const { productosFiltrados, setFiltro } = usarProductoContext();
-  const [categoria, setCategoria] = useState("");
+  const [categoria, setCategoria] = useState(""); // Para filtrar por categoría
 
   useEffect(() => {
     if (searchTerm) {

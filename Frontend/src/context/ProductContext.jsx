@@ -17,14 +17,20 @@ export const usarProductoContext = () => {
 const productoService = ProductoService;
 
 export const ProductoProvider = ({ children }) => {
-  const [productos, setProductos] = useState([]); 
-  const [productosFiltrados, setProductosFiltrados] = useState([]);
-  const [filtro, setFiltro] = useState(""); 
+  const [productos, setProductos] = useState([]); // Todos los productos
+  const [productosFiltrados, setProductosFiltrados] = useState([]); // Productos filtrados
+  const [productosEnPagina, setProductosEnPagina] = useState([]); // Productos en la página actual
+  const [filtro, setFiltro] = useState(""); // Filtro actual
+
+  const [totalPaginas, setTotalPaginas] = useState(0);
+  const [paginaActual, setPaginaActual] = useState(1); // Página actual
+  const [productosPorPagina] = useState(10); // Productos por página
   const [loading, setLoading] = useState(true);
 
+  // Cargar todos los productos al iniciar
   useEffect(() => {
     const fetchProductos = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
         const productosObtenidos = await productoService.getAllProducts();
 
@@ -36,7 +42,7 @@ export const ProductoProvider = ({ children }) => {
         );
 
         setProductos(productosConImagenes);
-        setProductosFiltrados(productosConImagenes);
+        setProductosFiltrados(productosConImagenes); // Inicialmente, todos los productos están filtrados
       } catch (error) {
         console.error("Error cargando productos:", error);
       } finally {
@@ -47,6 +53,7 @@ export const ProductoProvider = ({ children }) => {
     fetchProductos();
   }, []);
 
+  // Actualizar productos filtrados cuando cambia el filtro
   useEffect(() => {
     if (filtro.trim() === "") {
       setProductosFiltrados(productos);
@@ -55,12 +62,27 @@ export const ProductoProvider = ({ children }) => {
         productos.filter(
           (producto) =>
             producto &&
-            producto.name && 
+            producto.name &&
             producto.name.toLowerCase().includes(filtro.toLowerCase())
         )
       );
     }
+    setPaginaActual(1); // Reiniciar a la primera página al cambiar el filtro
   }, [filtro, productos]);
+
+  // Calcular los productos de la página actual
+  useEffect(() => {
+    const indiceUltimoProducto = paginaActual * productosPorPagina;
+    const indicePrimerProducto = indiceUltimoProducto - productosPorPagina;
+
+    setProductosEnPagina(
+      productosFiltrados.slice(indicePrimerProducto, indiceUltimoProducto)
+    );
+  }, [paginaActual, productosFiltrados]);
+
+  const cambiarPagina = (nuevaPagina) => {
+    setPaginaActual(nuevaPagina);
+  };
 
   const registroProducto = async (producto) => {
     const result = await productoService.registrarProducto(producto);
@@ -73,10 +95,7 @@ export const ProductoProvider = ({ children }) => {
     }
     return result;
   };
-  /**
-   * Busca productos dinámicamente desde el servicio
-   * @param {string} searchTerm - Término de búsqueda
-   */
+
   const searchProductos = async (searchTerm) => {
     setLoading(true);
     try {
@@ -88,6 +107,8 @@ export const ProductoProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  
+ 
 
   return (
     <ProductoContext.Provider

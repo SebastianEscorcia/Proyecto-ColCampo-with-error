@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import com.colcampo.colcampo.models.Product;
 
+
+
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT new map(per.id AS personId, per.name AS personName, rpp.stock AS stock, p.price AS price) " +

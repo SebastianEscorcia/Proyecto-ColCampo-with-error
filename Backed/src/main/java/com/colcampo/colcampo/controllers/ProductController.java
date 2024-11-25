@@ -1,11 +1,14 @@
 package com.colcampo.colcampo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.colcampo.colcampo.models.Product;
 import com.colcampo.colcampo.services.ProductService;
+
+
 
 import java.util.List;
 import java.util.Map;
@@ -72,5 +75,6 @@ public class ProductController {
         }
         return ResponseEntity.ok(productos);
     }
+   
 
 }
