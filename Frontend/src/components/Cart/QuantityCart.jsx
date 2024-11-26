@@ -1,66 +1,101 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import {useContextCart} from "../../context/CartContext";
 
-function QuantityCart({ person, maxQuantity, onRemove, onUpdateQuantity }) {
-  const [quantity, setQuantity] = useState(person.selectedQuantity ?? 1); // Inicializar en la cantidad seleccionada o 1
-
-  useEffect(() => {
-    setQuantity(person.selectedQuantity ?? 1); // Actualizar si la cantidad seleccionada cambia
-  }, [person.selectedQuantity]);
+function QuantityCart({ product, person }) {
+  const { cart, setCart } = useContextCart();
 
   const handleIncrease = () => {
-    if (quantity < maxQuantity) {
-      const newQuantity = quantity + 1;
-      setQuantity(newQuantity);
-      onUpdateQuantity(person.personId, newQuantity); // Pasar también el personId
-    }
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            persons: item.persons.map((p) =>
+              p.personId === person.personId
+                ? {
+                    ...p,
+                    quantity: Math.min(p.quantity + 1, person.stock), // Limita al stock disponible para la persona
+                  }
+                : p
+            ),
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
   const handleDecrease = () => {
-    if (quantity > 1) {
-      const newQuantity = quantity - 1;
-      setQuantity(newQuantity);
-      onUpdateQuantity(person.personId, newQuantity); // Pasar también el personId
-    }
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            persons: item.persons
+              .map((p) =>
+                p.personId === person.personId
+                  ? { ...p, quantity: Math.max(1, p.quantity - 1) }
+                  : p
+              )
+              .filter((p) => p.quantity > 0), // Opcional si no quieres personas con cantidad 0
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
   const handleInputChange = (e) => {
-    let newQuantity = parseInt(e.target.value, 10);
-    if (isNaN(newQuantity)) {
-      newQuantity = 1;
-    }
-    if (newQuantity >= 1 && newQuantity <= maxQuantity) {
-      setQuantity(newQuantity);
-      onUpdateQuantity(person.personId, newQuantity); // Pasar también el personId
-    } else if (newQuantity < 1) {
-      setQuantity(1);
-      onUpdateQuantity(person.personId, 1); // Pasar también el personId
-    }
+    const newQuantity = Math.min(
+      parseInt(e.target.value, 10) || 1,
+      person.stock // Limita al stock disponible para la persona
+    );
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) => {
+        if (item.id === product.id) {
+          return {
+            ...item,
+            persons: item.persons.map((p) =>
+              p.personId === person.personId
+                ? { ...p, quantity: newQuantity }
+                : p
+            ),
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
   return (
     <div className="quantity-cart">
-      <button className="remove-button" onClick={() => onRemove(person.personId)}>
+      <button
+        className="remove-button"
+        onClick={() => setCart(cart.filter((item) => item.id !== product.id))}
+      >
         🗑️
       </button>
-      <button
-        className="decrease-button"
-        onClick={handleDecrease}
-        disabled={quantity <= 1}
-      >
+      <button className="decrease-button" onClick={handleDecrease}>
         -
       </button>
-      <input 
-        type="number" 
-        value={quantity} 
-        onChange={handleInputChange} 
-        min="1" 
-        max={maxQuantity} 
+      <input
+        type="number"
+        value={
+          cart
+            .find((item) => item.id === product.id)
+            ?.persons.find((p) => p.personId === person.personId)?.quantity || 1
+        }
+        onChange={handleInputChange}
+        min="1"
+        max={person.stock} // Agrega el atributo `max` al input
       />
-      <button
-        className="increase-button"
-        onClick={handleIncrease}
-        disabled={quantity >= maxQuantity}
-      >
+      <button className="increase-button" onClick={handleIncrease}>
         +
       </button>
     </div>

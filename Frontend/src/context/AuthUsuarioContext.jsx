@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [campesinoPerfil, setCampesinoPerfil] = useState(null);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const login = async (user) => {
     try {
@@ -41,6 +42,11 @@ export const AuthProvider = ({ children }) => {
     setCampesinoPerfil(null);
   };
 
+  const toggleLoginDialog = () => {
+    debugger;
+    setShowLoginDialog((prevState) => !prevState);
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -59,7 +65,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthUsuarioContext.Provider value={{ login, user, isAuthenticated, logout, setUser, setisAuthenticated, campesinoPerfil }}>
+    <AuthUsuarioContext.Provider value={{ login, user, isAuthenticated, logout, setUser, setisAuthenticated, campesinoPerfil, toggleLoginDialog, showLoginDialog }}>
       {children}
     </AuthUsuarioContext.Provider>
   );

@@ -1,75 +1,62 @@
 import { useContextCart } from "../context/CartContext";
+import { usarContexto } from "../context/AuthUsuarioContext";
+import { useState } from "react";
 import Detailcart from "./Cart/DetailCart";
-import { useState, useEffect } from "react";
+import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+import { TabView, TabPanel } from "primereact/tabview";
+import  FormularioRegistro from "./FormularioRegistro";
+import Login from "../Pages/Login";
 
 function CartComponent({ product }) {
-  const { cart, setCart } = useContextCart();
-  const [totalStock, setTotalStock] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const { cart, setCart, saveSales } = useContextCart();
+  const { showLoginDialog } = usarContexto();
 
-  const calculateTotals = (cart) => {
-    const totalStockSum = cart.reduce(
-      (sum, product) =>
-        sum +
-        product.persons.reduce(
-          (personSum, person) => personSum + (person.selectedQuantity ?? 1),
-          0
-        ),
-      0
+  const calculateTotals = () => {
+    return (
+      cart.reduce((acc, r) => {
+        return (
+          acc +
+          r.persons.reduce(
+            (subAcc, per) => subAcc + per.quantity * per.price,
+            0
+          )
+        );
+      }, 0) * 1000
     );
-
-    const totalPriceSum = cart.reduce(
-      (sum, product) =>
-        sum +
-        product.persons.reduce(
-          (personSum, person) =>
-            personSum + (person.selectedQuantity ?? 1) * person.price *1000,
-          0
-        ),
-      0
-    );
-
-    setTotalStock(totalStockSum);
-    setTotalPrice(totalPriceSum);
   };
-
-  // Function to update quantity in cart
-  const handleUpdateQuantity = (productId, personId, newQuantity) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.map((product) => ({
-        ...product,
-        persons: product.persons.map((person) =>
-          product.id === productId && person.personId === personId
-            ? { ...person, selectedQuantity: newQuantity }
-            : person
-        ),
-      }));
-      calculateTotals(updatedCart);
-      return updatedCart;
-    });
-  };
-
-  useEffect(() => {
-    calculateTotals(cart);
-  }, [cart]);
 
   return (
     <div className="cart-component">
       <div className="cartBody">
         <h2>Carrito de compras</h2>
-        <Detailcart handleUpdateQuantity={handleUpdateQuantity} />
-        {cart.length > 0 && (
-          <div className="cart-details-totals">
-            <div className="total">{totalStock}</div>
-            <div className="total">${totalPrice.toLocaleString()}</div>
-            
-          </div>
-        )}
+        <Detailcart />
       </div>
-      <div className="cart-total"> <div>Valor total: ${totalPrice.toLocaleString()}</div> </div>
+      <div className="cart-total">
+        {" "}
+        <div>Valor total: ${calculateTotals()}</div>{" "}
+      </div>
       <div className="cartFooter">
-        <button>Comprar</button>
+        <button onClick={saveSales}>Comprar</button>
       </div>
+      <Dialog
+        header="Autenticación"
+        visible={showLoginDialog}
+        style={{ width: "50vw" }}
+        onHide={() => {
+          if (!visible) return;
+          setVisible(false);
+        }}
+      >
+        <TabView>
+          <TabPanel header="Iniciar sesión">
+            <Login />
+          </TabPanel>
+          <TabPanel header="Registrarse">
+            <FormularioRegistro />
+          </TabPanel>
+        </TabView>
+      </Dialog>
     </div>
   );
 }

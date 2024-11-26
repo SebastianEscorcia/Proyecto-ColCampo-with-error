@@ -1,5 +1,12 @@
 import { createContext, useContext } from "react";
 import { useState } from "react";
+import SaleService from "../services/Sales.Service";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useCartDrawerContext } from './CartDrawerContext';
+import { usarContexto } from './AuthUsuarioContext';
+import { Dialog } from 'primereact/dialog';
+
 
 const CartContext = createContext();
 
@@ -16,6 +23,8 @@ export const useContextCart = () => {
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const { toggleDrawerHandler } = useCartDrawerContext();
+  const { isAuthenticated, toggleLoginDialog } = usarContexto();
 
   const calculateTotal = () => {
     setTotal(cart.reduce((total, product) => total + product.price, 0));
@@ -38,18 +47,20 @@ export function CartProvider({ children }) {
         );
 
         if (existingPerson) {
-          existingPerson.cantidad += person.cantidad;
+          existingPerson.quantity += person.quantity;
         } else {
+          person.quantity = 1;
           existingProduct.persons.push(person);
         }
 
         updatedCart[existingProductIndex] = existingProduct;
       } else {
+        const personWithQuantity = {...person, quantity: 1 };
         updatedCart = [
           ...prevCart,
           {
             ...product,
-            persons: [person],
+            persons: [personWithQuantity],
           },
         ];
       }
@@ -59,13 +70,31 @@ export function CartProvider({ children }) {
     });
   };
 
+  const saveSales = () => {
+    if(!isAuthenticated){
+      toggleLoginDialog();
+      return;
+    }
+
+    const sales = JSON.parse(localStorage.getItem("cart")) || [];
+
+    SaleService.createSale(sales)
+      .then((response) => {
+        toggleDrawerHandler();
+        toast("Se guardó la venta correctamente");
+      })
+      .catch((error) => {
+        console.error("Error al guardar la venta:", error);
+      });
+  }
+
   const removeFromCart = (product) => {
     const newCart = cart.filter((item) => item.id !== product.id);
     setCart(newCart);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, setCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, setCart, saveSales}}>
       {children}
     </CartContext.Provider>
   );

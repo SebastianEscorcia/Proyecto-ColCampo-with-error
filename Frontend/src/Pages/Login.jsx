@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { iniciarSesion } from "../Logic/LoginController";
-
+import  AuthService  from "../services/auth.service";
 
 export function Login() {
   const {
@@ -17,7 +17,7 @@ export function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await iniciarSesion(data);
+      const response = await AuthService.login(data);
       localStorage.setItem("token", response.token);
       setUser(response.usuario);
       setisAuthenticated(true);
@@ -36,21 +36,21 @@ export function Login() {
         <FontAwesomeIcon icon={faUser} />
         <input
           type="text"
-          {...register("nombreUsuario", { required: true })}
+          {...register("email", { required: true })}
           placeholder="Nombre de usuario"
         />
       </div>
-      {errors.nombreUsuario && <span>El nombre de usuario es obligatorio</span>}
-      
+      {errors.email && <span>El nombre de usuario es obligatorio</span>}
+
       <div className="input-group">
         <FontAwesomeIcon icon={faLock} />
         <input
           type="password"
-          {...register("contrasenia", { required: true })}
+          {...register("password", { required: true })}
           placeholder="Contraseña"
         />
       </div>
-      {errors.contrasenia && <span>La contraseña es obligatoria</span>}
+      {errors.password && <span>La contraseña es obligatoria</span>}
 
       <button type="submit">Iniciar Sesión</button>
     </form>

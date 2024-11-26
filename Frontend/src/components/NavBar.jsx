@@ -6,6 +6,7 @@ import Logo from "../assets/Logo.jpeg";
 import { usarContexto } from "../context/AuthUsuarioContext";
 import { ShoppingBasket, Search } from "lucide-react";
 import { useContextCart } from "../context/CartContext";
+import { useCartDrawerContext } from '../context/CartDrawerContext';
 
 import CartDrawer from "./modalCart/CartDrawer";
 
@@ -17,11 +18,11 @@ function Navbar() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { cart } = useContextCart();
+  const { toggleDrawerHandler, isOpen } = useCartDrawerContext();
   const { isAuthenticated, logout } = usarContexto();
-  const [isOpen, setIsOpen] = React.useState(false);
 
   const toggleDrawer = () => {
-    setIsOpen((prevState) => !prevState);
+    toggleDrawerHandler();
   };
 
   const handleLogoClick = () => {

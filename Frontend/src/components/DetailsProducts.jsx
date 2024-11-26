@@ -4,7 +4,14 @@ import ProductCard from '../components/ProductCard';
 import { useContextCart } from '../context/CartContext';
 
 function DetailsProduct({ producto, personas }) {
-  const { addToCart } = useContextCart();
+  const { addToCart, cart } = useContextCart();
+
+
+  const calculateQuantity = (persona) => {
+    debugger;
+    const quantity = cart.filter((product) => product.id === persona.id).length;
+    return quantity > 0? quantity : persona.stock;
+  }
 
   return (
     <div className="details-product">
@@ -23,7 +30,7 @@ function DetailsProduct({ producto, personas }) {
             {personas.map((persona, index) => (
               <tr key={index}>
                 <td>{persona.personName}</td>
-                <td>{persona.stock}</td>
+                <td>{calculateQuantity(persona)}</td>
                 <td>${persona.price}</td>
                 <td>
                   <button

@@ -1,7 +1,7 @@
 import '../../Styles/detailsProduct.css';
 import QuantityCart from './QuantityCart';
 
-function ListPersonCart({ persons, onRemovePerson, onUpdateQuantity }) {
+function ListPersonCart({ product }) {
   return (
     <div className="product-details">
       <table>
@@ -13,17 +13,13 @@ function ListPersonCart({ persons, onRemovePerson, onUpdateQuantity }) {
           </tr>
         </thead>
         <tbody>
-          {persons.map((person, index) => (
+          {product.persons.map((person, index) => (
             <tr key={index}>
               <td>{person.personName}</td>
               <td>
                 <QuantityCart
                   person={person}
-                  maxQuantity={person.stock}
-                  onRemove={onRemovePerson}
-                  onUpdateQuantity={(personId, newQuantity) =>
-                    onUpdateQuantity(personId, newQuantity)
-                  }
+                  product={product}
                 />
               </td>
               <td>${person.price*1000}</td>
