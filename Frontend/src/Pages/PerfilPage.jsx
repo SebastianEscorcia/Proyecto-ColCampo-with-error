@@ -18,23 +18,24 @@ function PerfilPage() {
         <Link to="/perfil/datos" className="perfil-link">
           Mis Datos
         </Link>
-        {user?.tipoUsuario === "campesino" && (
+        {/* id === 2*/}
+        {user?.tipoUsuario === "campesino " && (
           <>
             <Link to="/perfil/mis-productos" className="perfil-link">
               Mis Productos
             </Link>
             <Link to="/perfil/informes-ventas" className="perfil-link">
-              Informes de Ventas
+              Informes de Ventas 
             </Link>
             <Link to="/perfil/pedidos" className="perfil-link">
-              Pedidos
+              Pedidos pendientes
             </Link>
           </>
         )}
         {user?.tipoUsuario === "cliente" && (
           <>
             <Link to="/perfil/historial-compras" className="perfil-link">
-              Historial de Compras
+              Historial de pedidos
             </Link>
             <Link to="/perfil/mis-pedidos" className="perfil-link">
               Mis Pedidos

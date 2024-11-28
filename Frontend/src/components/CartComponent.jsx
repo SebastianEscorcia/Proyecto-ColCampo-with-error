@@ -1,16 +1,15 @@
 import { useContextCart } from "../context/CartContext";
 import { usarContexto } from "../context/AuthUsuarioContext";
-import { useState } from "react";
 import Detailcart from "./Cart/DetailCart";
 import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import  FormularioRegistro from "./FormularioRegistro";
 import Login from "../Pages/Login";
 
-function CartComponent({ product }) {
-  const { cart, setCart, saveSales } = useContextCart();
-  const { showLoginDialog } = usarContexto();
+function CartComponent() {
+  const { cart, saveSales } = useContextCart();
+  const { showLoginDialog , setShowLoginDialog} = usarContexto();
+  
 
   const calculateTotals = () => {
     return (
@@ -40,12 +39,12 @@ function CartComponent({ product }) {
         <button onClick={saveSales}>Comprar</button>
       </div>
       <Dialog
-        header="Autenticación"
+        header="Inicial sesión o registrate"
         visible={showLoginDialog}
         style={{ width: "50vw" }}
         onHide={() => {
-          if (!visible) return;
-          setVisible(false);
+          if (!showLoginDialog) return;
+          setShowLoginDialog(false);
         }}
       >
         <TabView>

@@ -8,7 +8,7 @@ class ProductService {
 
   /**
    * Obtiene todos los productos
-   * @returns {Promise} Promesa con la lista de productos
+   * @returns {Promise} 
    */
   async getAllProducts() {
     try {
@@ -105,9 +105,9 @@ class ProductService {
    async searchProducts(searchTerm) {
     try {
       const response = await axios.get(`${this.API_URL}/products/search`, {
-        params: { searchTerm }, // Enviar el término como un parámetro de consulta
+        params: { searchTerm }, 
       });
-      return response.data; // Devuelve los productos encontrados
+      return response.data; 
     } catch (error) {
       console.error(`Error al buscar productos con el término "${searchTerm}":`, error);
       throw error;
@@ -116,5 +116,5 @@ class ProductService {
   
 }
 
-// Exporta una instancia única del servicio
+
 export default new ProductService();

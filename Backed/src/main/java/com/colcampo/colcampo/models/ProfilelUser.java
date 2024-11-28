@@ -20,7 +20,7 @@ public class ProfilelUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    
     private String name;
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { usarContexto } from "../context/AuthUsuarioContext";
-import { iniciarSesion } from "../Logic/LoginController";
 import  AuthService  from "../services/auth.service";
 
 export function Login() {

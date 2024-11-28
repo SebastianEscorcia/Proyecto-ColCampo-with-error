@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.colcampo.colcampo.models.Person;
 import com.colcampo.colcampo.services.ProfileUserService;
 
 @RestController
@@ -20,13 +19,15 @@ public class ProfileUserController {
     @Autowired
     private ProfileUserService ProfileUserService;
 
+    
+    
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
         String email = loginData.get("email");
         String password = loginData.get("password");
 
         Optional<String> person = ProfileUserService.login(email, password);
-
+        
         if (person.isPresent()) {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Login successful");

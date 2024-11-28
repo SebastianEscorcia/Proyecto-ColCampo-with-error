@@ -1,9 +1,9 @@
 package com.colcampo.colcampo.DTOS;
 
 
-import lombok.AllArgsConstructor; // Constructor con todos los argumentos.
-import lombok.Data; // Getters y setters.
-import lombok.NoArgsConstructor; // Constructor sin argumentos.
+import lombok.AllArgsConstructor; 
+import lombok.Data; 
+import lombok.NoArgsConstructor; 
 
 @Data
 @NoArgsConstructor

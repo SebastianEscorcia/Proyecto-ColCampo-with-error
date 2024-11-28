@@ -1,40 +1,39 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { usarContexto } from "../context/AuthUsuarioContext";
+import { FaUser, FaEnvelope, FaLock, FaUserTag } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../Styles/registroUsuario.css";
-import { useState, useEffect } from "react";
-import { FaUser, FaEnvelope, FaLock, FaUserTag } from "react-icons/fa";
 
 function FormularioRegistro() {
+  const { registro, isAuthenticated } = usarContexto();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const password = watch("contrasenia");
+  const password = watch("password");
   const navigate = useNavigate();
-  const { login, isAuthenticated } = usarContexto();
   const [errorMessage, setErrorMessage] = useState(null);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/", { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
 
   const onSubmit = async (values) => {
     try {
-      await login(values);
+      const perfilId = values.tipoUsuario === "campesino" ? 2 : 1;
+
+      const payload = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        perfilId,
+        isActive: true,
+      };
+
+      await registro(payload); // Llamar al método del contexto
       setErrorMessage(null);
+      navigate("/", { replace: true }); // Redirigir después de un registro exitoso
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        setErrorMessage(
-          "El nombre de usuario o correo electrónico ya están en uso."
-        );
-      } else {
-        setErrorMessage("Ocurrió un error inesperado. Inténtalo nuevamente.");
-      }
+      setErrorMessage(error.message || "Error al registrar el usuario.");
     }
   };
 
@@ -48,94 +47,77 @@ function FormularioRegistro() {
         <FaUser />
         <input
           type="text"
-          {...register("nombreUsuario", { required: true })}
-          placeholder="Nombre de usuario"
+          {...register("name", { required: "El nombre es obligatorio" })}
+          placeholder="Nombre"
         />
+        {errors.name && <span>{errors.name.message}</span>}
       </div>
-      {errors.nombreUsuario && <span>El nombre de usuario es obligatorio</span>}
-      
-      <div className="form-row">
-        <div className="input-group">
-          <FaUserTag />
-          <label htmlFor="tipoUsuario">Tipo de Usuario:</label>
-          <select
-            id="tipoUsuario"
-            {...register("tipoUsuario", {
-              required: "Selecciona el tipo de usuario",
-            })}
-          >
-            <option value="">Selecciona...</option>
-            <option value="campesino">Campesino</option>
-            <option value="cliente">Cliente</option>
-          </select>
-        </div>
+
+      <div className="input-group">
+        <FaUserTag />
+        <select
+          {...register("tipoUsuario", {
+            required: "Selecciona el tipo de usuario",
+          })}
+        >
+          <option value="">Selecciona...</option>
+          <option value="campesino">Campesino</option>
+          <option value="cliente">Cliente</option>
+        </select>
         {errors.tipoUsuario && <span>{errors.tipoUsuario.message}</span>}
       </div>
-      
+
       <div className="input-group">
         <FaEnvelope />
         <input
           type="email"
-          {...register("correoElectronico", { required: true })}
+          {...register("email", {
+            required: "El correo electrónico es obligatorio",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Correo electrónico no válido",
+            },
+          })}
           placeholder="Correo Electrónico"
         />
+        {errors.email && <span>{errors.email.message}</span>}
       </div>
-      {errors.correoElectronico && (
-        <span>El correo electrónico es obligatorio</span>
-      )}
 
       <div className="input-group">
         <FaLock />
         <input
           type="password"
-          {...register("contrasenia", {
+          {...register("password", {
             required: "La contraseña es obligatoria",
             minLength: {
               value: 8,
-              message: "La contraseña debe tener al menos 8 caracteres",
-            },
-            pattern: {
-              value:
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-              message:
-                "La contraseña debe incluir mayúsculas, minúsculas, un número y un carácter especial",
+              message: "Debe tener al menos 8 caracteres",
             },
           })}
           placeholder="Contraseña"
         />
+        {errors.password && <span>{errors.password.message}</span>}
       </div>
-      {errors.contrasenia && <span>{errors.contrasenia.message}</span>}
 
       <div className="input-group">
         <FaLock />
         <input
           type="password"
           {...register("confirmarContraseña", {
-            required: "Confirme su contraseña",
+            required: "Confirma tu contraseña",
             validate: (value) =>
               value === password || "Las contraseñas no coinciden",
           })}
           placeholder="Confirmar Contraseña"
         />
+        {errors.confirmarContraseña && (
+          <span>{errors.confirmarContraseña.message}</span>
+        )}
       </div>
-      {errors.confirmarContraseña && (
-        <span>{errors.confirmarContraseña.message}</span>
-      )}
 
-      <div className="checkbox-container">
-        <input
-          type="checkbox"
-          {...register("terminosYCondiciones", {
-            required: "Debe aceptar los términos y condiciones",
-          })}
-        />
-        <label>Acepto los términos y condiciones</label>
-      </div>
-      {errors.terminosYCondiciones && (
-        <span>{errors.terminosYCondiciones.message}</span>
-      )}
-
-      <button className="registrar" type="submit">Regístrate</button>
+      <button type="submit" className="registrar">
+        Regístrate
+      </button>
     </form>
   );
 }

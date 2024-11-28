@@ -151,7 +151,7 @@ export function Perfil() {
       {errors.numeroDocumento && (
         <span>El número de documento es obligatorio</span>
       )}
-      <input type="file" {...register("foto", { required: !isUpdating })} />{" "}
+      <input type="file" {...register("foto", { required: !isUpdating })} />
       {errors.foto && <span>La foto es obligatoria</span>}
       <input type="hidden" {...register("id", { required: false })} />
       <button type="submit">

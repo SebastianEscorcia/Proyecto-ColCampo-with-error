@@ -23,7 +23,7 @@ public class Product {
     
     private String name;
     private String image;
-
+    
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
 

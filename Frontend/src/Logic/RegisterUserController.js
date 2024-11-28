@@ -1,30 +1,26 @@
 import axios from 'axios';
 
-export const registrarUsuario = async (datosUsuario) => {
-    try {
-        // Hacer la solicitud POST al servidor para registrar el usuario
-        const response = await axios.post('http://localhost:8080/usuarios/registro', datosUsuario);
-        const { token, usuario } = response.data;
-        
-        // Guardar el token en localStorage
-        localStorage.setItem('token', token);
-        
-        console.log('Token guardado:', token);
-        console.log('Usuario registrado:', usuario);
-        
-        // Retornar la respuesta (datos del usuario registrado)
-        return response.data;
-    } catch (error) {
-        // Verificar si el error es de conflicto (409) y manejarlo
-        if (error.response && error.response.status === 409) {
-            const mensajeError = error.response.data.mensaje; // Acceder al mensaje de error desde el cuerpo de la respuesta
-            throw new Error(mensajeError);  // Lanzar el mensaje de error personalizado
-        }
-        
-        // Manejar otros errores
-        console.error('Error:', error);
-        throw error;
+const API_URL = 'http://localhost:8080/api';
+
+export const registrarUsuario = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/person/register`, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Retornar directamente los datos
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      // Errores que vienen del backend
+      console.error("Error en el registro:", error.response.data);
+      throw new Error(error.response.data.message || "Error en el registro");
+    } else {
+      // Otros errores (problemas de conexión, etc.)
+      console.error("Error al registrar el usuario:", error.message);
+      throw new Error("No se pudo conectar con el servidor");
     }
-}
-
-
+  }
+};

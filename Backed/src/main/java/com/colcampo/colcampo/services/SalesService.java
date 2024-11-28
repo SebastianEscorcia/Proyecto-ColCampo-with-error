@@ -15,7 +15,6 @@ import com.colcampo.colcampo.models.SaleDetail;
 import com.colcampo.colcampo.models.Sales;
 import com.colcampo.colcampo.repositories.PersonRepository;
 import com.colcampo.colcampo.repositories.ProductPersonRepository;
-import com.colcampo.colcampo.repositories.ProductRepository;
 import com.colcampo.colcampo.repositories.SaleDetailRepository;
 import com.colcampo.colcampo.repositories.SaleRepository;
 

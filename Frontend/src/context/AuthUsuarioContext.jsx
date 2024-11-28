@@ -19,21 +19,17 @@ export const AuthProvider = ({ children }) => {
   const [campesinoPerfil, setCampesinoPerfil] = useState(null);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
-  const login = async (user) => {
+  const registro = async (data) => {
     try {
-      const response = await registrarUsuario(user);
+      const response = await registrarUsuario(data);
       console.log("Usuario registrado:", response);
       localStorage.setItem('token', response.token);
       setUser(response.usuario);
       setisAuthenticated(true);
-      if (response.usuario.tipoUsuario === 'campesino') {
-        const perfil = await obtenerPerfilCampesino(response.usuario.id);
-        setCampesinoPerfil(perfil);
-      }
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
     }
-  };
+  }
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -65,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthUsuarioContext.Provider value={{ login, user, isAuthenticated, logout, setUser, setisAuthenticated, campesinoPerfil, toggleLoginDialog, showLoginDialog }}>
+    <AuthUsuarioContext.Provider value={{ registro, user, isAuthenticated, logout, setUser, setisAuthenticated, campesinoPerfil, toggleLoginDialog, showLoginDialog, setShowLoginDialog}}>
       {children}
     </AuthUsuarioContext.Provider>
   );
