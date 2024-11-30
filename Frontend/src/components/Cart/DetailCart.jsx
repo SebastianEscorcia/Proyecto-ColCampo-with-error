@@ -38,17 +38,17 @@ function DetailCart() {
         return (
           <>
             <div key={product.id} className="container-details">
-              <button
+              <button 
                 className="remove-product-button"
                 onClick={() => {
-                  debugger; // Detiene la ejecución justo antes de manejar la eliminación.
+                  
                   handleRemoveProduct(product.id);
                 }}
               >
                 ×
               </button>
               
-              <ProductCard product={product} />
+              <ProductCard producto={{ ...product, image: product.image || "" }} />
 
               
               <ListPersonCart product={product} />
