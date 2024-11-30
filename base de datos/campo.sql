@@ -1,0 +1,220 @@
+CREATE DATABASE  IF NOT EXISTS `campo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `campo`;
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
+--
+-- Host: localhost    Database: campo
+-- ------------------------------------------------------
+-- Server version	8.3.0
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `person`
+--
+
+DROP TABLE IF EXISTS `person`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `person` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `perfil_id` int NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `FK_person_profileluser` (`perfil_id`),
+  CONSTRAINT `FK_person_profileluser` FOREIGN KEY (`perfil_id`) REFERENCES `profileluser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `person`
+--
+
+LOCK TABLES `person` WRITE;
+/*!40000 ALTER TABLE `person` DISABLE KEYS */;
+INSERT INTO `person` VALUES (12,'oscar','oscar@mail.com','oscar123',1,1,'2024-11-20 18:41:14','2024-11-20 18:41:14'),(13,'david','david@mail.com','david123',1,1,'2024-11-22 17:07:56','2024-11-22 17:07:56'),(14,'sebastian','sebastian@mail.com','sebastian123',2,1,'2024-11-27 13:45:51','2024-11-27 13:45:51'),(15,'sebas','sebitas@gmail.com','Seb@s123',2,1,'2024-11-28 10:59:42','2024-11-28 10:59:42'),(16,'maria alba','mariaalba@gmail.com','M@rialba123',1,1,'2024-11-28 11:03:37','2024-11-28 11:03:37');
+/*!40000 ALTER TABLE `person` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product`
+--
+
+DROP TABLE IF EXISTS `product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `product` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `unity` enum('kg','lt') DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `price` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product`
+--
+
+LOCK TABLES `product` WRITE;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'Tomatoes','kg','tomate.jpg','2024-11-19 05:34:08','2024-11-30 14:21:24',2.5),(2,'Potatoes','kg','OIP.jpg','2024-11-19 05:34:08','2024-11-30 14:11:43',1.5),(3,'Carrots','kg','zanahoria.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',2.4),(4,'Lettuce','kg','lechuga.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',2.3),(5,'Onions','kg','cebolla.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',1.5),(6,'Apples','kg','manzana.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',2.5),(7,'Bananas','kg','banana.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',2.5),(8,'Oranges','kg','naranja.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',2.3),(9,'Peppers','kg','aji.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',2.2),(10,'Cucumbers','kg','pepino.jpg','2024-11-19 05:34:08','2024-11-30 14:43:15',3),(11,'Tomatoes','kg','tomate.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',2),(12,'Potatoes','kg','OIP.jpg','2024-11-19 05:34:20','2024-11-30 14:40:32',1.5),(13,'Carrots','kg','zanahoria.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',1.5),(14,'Lettuce','kg','lechuga.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',1.5),(15,'Onions','kg','cebolla.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',3.2),(16,'Apples','kg','manzana.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',3.4),(17,'Bananas','kg','banana.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',1.5),(18,'Oranges','kg','naranja.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',1.8),(19,'Peppers','kg','aji.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',1.9),(20,'Cucumbers','kg','pepino.jpg','2024-11-19 05:34:20','2024-11-30 14:43:15',1.8);
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `profileluser`
+--
+
+DROP TABLE IF EXISTS `profileluser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `profileluser` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `profileluser`
+--
+
+LOCK TABLES `profileluser` WRITE;
+/*!40000 ALTER TABLE `profileluser` DISABLE KEYS */;
+INSERT INTO `profileluser` VALUES (1,'cliente','2024-11-19 05:32:03','2024-11-27 13:44:39'),(2,'campesino','2024-11-19 05:32:03','2024-11-27 13:44:47');
+/*!40000 ALTER TABLE `profileluser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `r_person_product`
+--
+
+DROP TABLE IF EXISTS `r_person_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `r_person_product` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `person_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `stock` int DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `person_id` (`person_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `r_person_product_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`),
+  CONSTRAINT `r_person_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `r_person_product`
+--
+
+LOCK TABLES `r_person_product` WRITE;
+/*!40000 ALTER TABLE `r_person_product` DISABLE KEYS */;
+INSERT INTO `r_person_product` VALUES (2,12,12,7,'2024-11-20 18:41:57','2024-11-26 06:54:26'),(3,13,12,164,'2024-11-22 17:08:27','2024-11-28 06:11:31'),(4,13,1,997,'2024-11-22 18:26:51','2024-11-30 17:09:38'),(5,12,17,30,'2024-11-22 18:41:39','2024-11-30 14:03:29'),(6,13,8,10,'2024-11-22 18:41:53','2024-11-26 04:32:22'),(7,13,19,300,'2024-11-22 18:42:26','2024-11-22 18:42:30'),(8,16,1,80,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(9,15,1,21,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(10,14,1,38,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(11,13,1,25,'2024-11-30 14:18:43','2024-11-30 17:09:38'),(12,12,1,18,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(13,16,2,84,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(14,15,2,85,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(15,14,2,81,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(16,13,2,40,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(17,12,2,80,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(18,16,3,64,'2024-11-30 14:18:43','2024-11-30 16:43:58'),(19,15,3,72,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(20,14,3,66,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(21,13,3,11,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(22,12,3,30,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(23,16,4,15,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(24,15,4,71,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(25,14,4,31,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(26,13,4,21,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(27,12,4,96,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(28,16,5,47,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(29,15,5,24,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(30,14,5,61,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(31,13,5,40,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(32,12,5,10,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(33,16,6,100,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(34,15,6,97,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(35,14,6,86,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(36,13,6,37,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(37,12,6,98,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(38,16,7,99,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(39,15,7,10,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(40,14,7,10,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(41,13,7,57,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(42,12,7,37,'2024-11-30 14:18:43','2024-11-30 17:34:24'),(43,16,8,99,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(44,15,8,98,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(45,14,8,93,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(46,13,8,70,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(47,12,8,62,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(48,16,9,88,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(49,15,9,64,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(50,14,9,48,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(51,13,9,37,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(52,12,9,32,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(53,16,10,39,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(54,15,10,89,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(55,14,10,46,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(56,13,10,46,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(57,12,10,81,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(58,16,11,75,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(59,15,11,31,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(60,14,11,14,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(61,13,11,57,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(62,12,11,52,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(63,16,12,80,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(64,15,12,51,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(65,14,12,98,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(66,13,12,54,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(67,12,12,58,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(68,16,13,28,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(69,15,13,46,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(70,14,13,48,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(71,13,13,92,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(72,12,13,34,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(73,16,14,67,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(74,15,14,39,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(75,14,14,79,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(76,13,14,83,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(77,12,14,80,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(78,16,15,49,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(79,15,15,89,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(80,14,15,14,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(81,13,15,68,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(82,12,15,13,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(83,16,16,36,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(84,15,16,41,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(85,14,16,88,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(86,13,16,34,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(87,12,16,78,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(88,16,17,95,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(89,15,17,51,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(90,14,17,50,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(91,13,17,87,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(92,12,17,96,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(93,16,18,25,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(94,15,18,13,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(95,14,18,41,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(96,13,18,41,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(97,12,18,70,'2024-11-30 14:18:43','2024-11-30 17:34:25'),(98,16,19,37,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(99,15,19,55,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(100,14,19,65,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(101,13,19,58,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(102,12,19,86,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(103,16,20,65,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(104,15,20,57,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(105,14,20,79,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(106,13,20,32,'2024-11-30 14:18:43','2024-11-30 14:18:43'),(107,12,20,98,'2024-11-30 14:18:43','2024-11-30 14:18:43');
+/*!40000 ALTER TABLE `r_person_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sale_detail`
+--
+
+DROP TABLE IF EXISTS `sale_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sale_detail` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sale_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `quantity` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `sale_id` (`sale_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `sale_detail_ibfk_1` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`),
+  CONSTRAINT `sale_detail_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sale_detail`
+--
+
+LOCK TABLES `sale_detail` WRITE;
+/*!40000 ALTER TABLE `sale_detail` DISABLE KEYS */;
+INSERT INTO `sale_detail` VALUES (1,1,12,1,'2024-11-26 06:23:02','2024-11-26 06:23:02'),(2,2,17,1,'2024-11-26 06:28:41','2024-11-26 06:28:41'),(3,3,17,1,'2024-11-26 06:28:57','2024-11-26 06:28:57'),(4,4,17,1,'2024-11-26 06:29:03','2024-11-26 06:29:03'),(5,8,12,1,'2024-11-26 06:32:26','2024-11-26 06:32:26'),(6,9,12,1,'2024-11-26 06:53:15','2024-11-26 06:53:15'),(7,10,12,1,'2024-11-26 06:54:26','2024-11-26 06:54:26'),(8,11,12,1,'2024-11-26 07:05:55','2024-11-26 07:05:55'),(9,12,12,1,'2024-11-26 07:07:25','2024-11-26 07:07:25'),(10,13,12,1,'2024-11-28 06:05:52','2024-11-28 06:05:52'),(11,14,12,1,'2024-11-28 06:09:15','2024-11-28 06:09:15'),(12,15,12,10,'2024-11-28 06:11:31','2024-11-28 06:11:31'),(13,16,3,1,'2024-11-30 16:43:58','2024-11-30 16:43:58'),(14,17,1,3,'2024-11-30 17:09:38','2024-11-30 17:09:38'),(15,18,7,1,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(16,18,7,1,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(17,18,7,10,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(18,18,7,1,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(19,18,7,1,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(20,19,2,1,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(21,19,2,2,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(22,19,2,1,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(23,19,2,9,'2024-11-30 17:34:24','2024-11-30 17:34:24'),(24,19,2,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(25,20,4,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(26,20,4,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(27,20,4,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(28,20,4,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(29,20,4,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(30,21,18,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(31,21,18,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(32,21,18,32,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(33,21,18,1,'2024-11-30 17:34:25','2024-11-30 17:34:25'),(34,21,18,1,'2024-11-30 17:34:25','2024-11-30 17:34:25');
+/*!40000 ALTER TABLE `sale_detail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sales`
+--
+
+DROP TABLE IF EXISTS `sales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sales` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `comprador_id` int NOT NULL,
+  `campesino_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `comprador_id` (`comprador_id`),
+  KEY `campesino_id` (`campesino_id`),
+  CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`comprador_id`) REFERENCES `person` (`id`),
+  CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`campesino_id`) REFERENCES `person` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sales`
+--
+
+LOCK TABLES `sales` WRITE;
+/*!40000 ALTER TABLE `sales` DISABLE KEYS */;
+INSERT INTO `sales` VALUES (1,13,12,'2024-11-26 11:23:03','2024-11-26 11:23:03'),(2,13,12,'2024-11-26 11:28:41','2024-11-26 11:28:41'),(3,13,12,'2024-11-26 11:28:57','2024-11-26 11:28:57'),(4,13,12,'2024-11-26 11:29:03','2024-11-26 11:29:03'),(8,13,12,'2024-11-26 11:32:26','2024-11-26 11:32:26'),(9,13,12,'2024-11-26 11:53:15','2024-11-26 11:53:15'),(10,13,12,'2024-11-26 11:54:26','2024-11-26 11:54:26'),(11,13,12,'2024-11-26 12:05:55','2024-11-26 12:05:55'),(12,13,12,'2024-11-26 12:07:25','2024-11-26 12:07:25'),(13,13,12,'2024-11-28 11:05:52','2024-11-28 11:05:52'),(14,13,12,'2024-11-28 11:09:15','2024-11-28 11:09:15'),(15,13,12,'2024-11-28 11:11:32','2024-11-28 11:11:32'),(16,13,12,'2024-11-30 21:43:58','2024-11-30 21:43:58'),(17,13,12,'2024-11-30 22:09:38','2024-11-30 22:09:38'),(18,13,12,'2024-11-30 22:34:24','2024-11-30 22:34:24'),(19,13,12,'2024-11-30 22:34:24','2024-11-30 22:34:24'),(20,13,12,'2024-11-30 22:34:25','2024-11-30 22:34:25'),(21,13,12,'2024-11-30 22:34:26','2024-11-30 22:34:26');
+/*!40000 ALTER TABLE `sales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'campo'
+--
+
+--
+-- Dumping routines for database 'campo'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-11-30 13:04:06
