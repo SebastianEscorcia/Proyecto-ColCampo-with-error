@@ -10,19 +10,17 @@ function CartComponent() {
   const { cart, saveSales } = useContextCart();
   const { showLoginDialog , setShowLoginDialog} = usarContexto();
   
-
   const calculateTotals = () => {
-    return (
-      cart.reduce((acc, r) => {
-        return (
-          acc +
-          r.persons.reduce(
-            (subAcc, per) => subAcc + per.quantity * per.price,
-            0
-          )
-        );
-      }, 0) * 1000
-    );
+    const total = cart.reduce((acc, r) => {
+      return (
+        acc +
+        r.persons.reduce(
+          (subAcc, per) => subAcc + per.quantity * per.price,
+          0
+        )
+      );
+    }, 0);
+    return Math.round(total * 1000); 
   };
 
   return (

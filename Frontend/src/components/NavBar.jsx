@@ -19,7 +19,7 @@ function Navbar() {
   const navigate = useNavigate();
   const { cart } = useContextCart();
   const { toggleDrawerHandler, isOpen } = useCartDrawerContext();
-  const { isAuthenticated, logout } = usarContexto();
+  const { isAuthenticated, logout, isCampesino } = usarContexto();
 
   const toggleDrawer = () => {
     toggleDrawerHandler();
@@ -82,7 +82,7 @@ function Navbar() {
               {cart.length}
             </span>
           </Link>
-          {isAuthenticated ? (
+          {isAuthenticated  ? (
             <>
               <Link
                 to="/vender"

@@ -1,17 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 
-export const obtenerPerfil = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error("No hay token guardado");
+const API_URL = "http://localhost:8080/api/auth";
 
-    try {
-        const response = await axios.get('http://localhost:8080/usuarios/perfil', {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error al obtener el perfil:', error);
-        throw error;
-    }
-}
+/**
+ * Obtener el perfil del usuario por ID
+ * @param {number} id
+ * @returns {Promise<Object>}
+ */
+export const obtenerPerfil = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/profile/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, 
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el perfil:", error);
+    throw error;
+  }
+};
 

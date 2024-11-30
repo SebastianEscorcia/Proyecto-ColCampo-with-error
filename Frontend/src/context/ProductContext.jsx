@@ -22,7 +22,7 @@ export const ProductoProvider = ({ children }) => {
   const [productosEnPagina, setProductosEnPagina] = useState([]); // Productos en la página actual
   const [filtro, setFiltro] = useState(""); // Filtro actual
 
-  const [totalPaginas, setTotalPaginas] = useState(0);
+  
   const [paginaActual, setPaginaActual] = useState(1); // Página actual
   const [productosPorPagina] = useState(10); // Productos por página
   const [loading, setLoading] = useState(true);

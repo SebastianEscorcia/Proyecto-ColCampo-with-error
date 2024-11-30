@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "../Styles/registroUsuario.css";
 
 function FormularioRegistro() {
-  const { registro, isAuthenticated } = usarContexto();
+  const { registro} = usarContexto();
   const {
     register,
     handleSubmit,

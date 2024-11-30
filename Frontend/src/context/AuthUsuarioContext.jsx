@@ -16,7 +16,7 @@ export const usarContexto = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setisAuthenticated] = useState(false);
-  const [campesinoPerfil, setCampesinoPerfil] = useState(null);
+  const [isCampesino, setIsCampesino] = useState(false);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const registro = async (data) => {
@@ -49,9 +49,11 @@ export const AuthProvider = ({ children }) => {
       obtenerPerfil().then(async user => {
         setUser(user);
         setisAuthenticated(true);
-        if (user.tipoUsuario === 'campesino') {
-          const perfil = await obtenerPerfilCampesino(user.id);
-          setCampesinoPerfil(perfil);
+        if (user.perfilId === 2) {
+          setIsCampesino(true);
+          
+        }else {
+          setIsCampesino(false);
         }
       }).catch(error => {
         console.error('Error al obtener el perfil:', error);
@@ -61,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthUsuarioContext.Provider value={{ registro, user, isAuthenticated, logout, setUser, setisAuthenticated, campesinoPerfil, toggleLoginDialog, showLoginDialog, setShowLoginDialog}}>
+    <AuthUsuarioContext.Provider value={{ registro, user, isAuthenticated, isCampesino, logout, setUser, setisAuthenticated, toggleLoginDialog, showLoginDialog, setShowLoginDialog}}>
       {children}
     </AuthUsuarioContext.Provider>
   );

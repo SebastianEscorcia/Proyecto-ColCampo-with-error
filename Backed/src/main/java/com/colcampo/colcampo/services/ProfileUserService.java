@@ -13,6 +13,7 @@ import com.colcampo.colcampo.repositories.PersonRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProfileUserService {
@@ -39,5 +40,9 @@ public class ProfileUserService {
             return Optional.of(jwt);
         }
         return Optional.empty();
+    }
+    @Transactional
+    public Optional<Person> getProfile(int id) {
+        return personRepository.findById(id);
     }
 }

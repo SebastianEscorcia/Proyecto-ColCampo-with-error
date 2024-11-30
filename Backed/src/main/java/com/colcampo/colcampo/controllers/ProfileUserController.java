@@ -6,11 +6,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.colcampo.colcampo.models.Person;
 import com.colcampo.colcampo.services.ProfileUserService;
 
 @RestController
@@ -35,6 +38,15 @@ public class ProfileUserController {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(401).body("Invalid credentials");
+        }
+    }
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<?> getProfile(@PathVariable int id) {
+        Optional<Person> person = ProfileUserService.getProfile(id);
+        if (person.isPresent()) {
+            return ResponseEntity.ok(person.get());
+        } else {
+            return ResponseEntity.status(404).body("Profile not found");
         }
     }
 }

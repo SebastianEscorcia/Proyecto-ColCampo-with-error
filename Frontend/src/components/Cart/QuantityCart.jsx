@@ -39,7 +39,7 @@ function QuantityCart({ product, person }) {
                   ? { ...p, quantity: Math.max(1, p.quantity - 1) }
                   : p
               )
-              .filter((p) => p.quantity > 0), // Opcional si no quieres personas con cantidad 0
+              .filter((p) => p.quantity > 0), 
           };
         }
         return item;
@@ -72,12 +72,30 @@ function QuantityCart({ product, person }) {
       return updatedCart;
     });
   };
+  const handleRemove = () => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) => {
+        if (item.id === product.id) {
+          const filteredPersons = item.persons.filter(
+            (p) => p.personId !== person.personId
+          );
+          return filteredPersons.length > 0
+            ? { ...item, persons: filteredPersons }
+            : null; 
+        }
+        return item;
+      }).filter(Boolean); 
+  
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
+  };
 
   return (
     <div className="quantity-cart">
       <button
         className="remove-button"
-        onClick={() => setCart(cart.filter((item) => item.id !== product.id))}
+        onClick={handleRemove}
       >
         🗑️
       </button>
@@ -93,7 +111,7 @@ function QuantityCart({ product, person }) {
         }
         onChange={handleInputChange}
         min="1"
-        max={person.stock} // Agrega el atributo `max` al input
+        max={person.stock} 
       />
       <button className="increase-button" onClick={handleIncrease}>
         +

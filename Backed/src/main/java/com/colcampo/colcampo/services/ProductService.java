@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.colcampo.colcampo.models.Product;
+import com.colcampo.colcampo.repositories.PersonRepository;
 import com.colcampo.colcampo.repositories.ProductRepository;
 
 
@@ -16,6 +17,11 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+  
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();

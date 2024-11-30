@@ -20,20 +20,21 @@ function DetailCart() {
 
 
   const sumTotal = (product) => {
-    return product.persons.reduce((total, person) => total + person.quantity, 0); 
-  }
-
+    return product.persons.reduce((total, person) => total + person.quantity, 0);
+  };
+  
   const sumTotalPrice = (product) => {
-    debugger;
-    return (product.persons.reduce((acc, r) => acc + (r.quantity * r.price), 0)) * 1000;
-  }
+    const total = product.persons.reduce(
+      (acc, r) => acc + r.quantity * r.price,
+      0
+    );
+    return Math.round(total * 1000); 
+  };
 
   return (
     <div className="detail-cart">
       {cart.map((product) => {
-        // Añadir debugger aquí
-        debugger; // Esto detendrá la ejecución cuando se ejecute este punto del código.
-
+        
         return (
           <>
             <div key={product.id} className="container-details">
@@ -46,10 +47,10 @@ function DetailCart() {
               >
                 ×
               </button>
-              {/* Componente del producto */}
+              
               <ProductCard product={product} />
 
-              {/* Tabla de personas asociadas */}
+              
               <ListPersonCart product={product} />
             </div>
             {cart.length > 0 && (
